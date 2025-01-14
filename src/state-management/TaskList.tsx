@@ -1,36 +1,33 @@
-import { useState } from "react";
-
-interface Task {
-  id: number;
-  title: string;
-}
+import { useReducer } from "react";
+import { tasksReducer, Task } from "./reducers/tasksReducer";
 
 const TaskList = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, dispatch] = useReducer(tasksReducer, []);
+
+  const addTask = () => {
+    const newTask: Task = { id: Date.now(), title: `Task ${Date.now()}` };
+    dispatch({ type: "ADD", task: newTask });
+  };
+
+  const deleteTask = (taskId: number) => {
+    dispatch({ type: "DELETE", taskId: taskId });
+  };
 
   return (
     <>
-      <button
-        onClick={() =>
-          setTasks([{ id: Date.now(), title: "Task " + Date.now() }, ...tasks])
-        }
-        className="btn btn-primary my-3"
-      >
+      <button onClick={addTask} className="btn btn-primary my-3">
         Add Task
       </button>
       <ul className="list-group">
         {tasks.map((task) => (
           <li
-            key={task.id}
             className="list-group-item d-flex justify-content-between align-items-center"
+            key={task.id}
           >
-            <span className="flex-grow-1">{task.title}</span>
+            {task.title}
             <button
               className="btn btn-outline-danger"
-              onClick={() =>
-                // Creates new array only containing tasks where the condition was true
-                setTasks(tasks.filter((t) => t.id !== task.id))
-              }
+              onClick={() => deleteTask(task.id)}
             >
               Delete
             </button>
@@ -40,5 +37,4 @@ const TaskList = () => {
     </>
   );
 };
-
 export default TaskList;
