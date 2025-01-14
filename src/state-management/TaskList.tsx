@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 interface Task {
   id: number;
@@ -12,10 +12,7 @@ const TaskList = () => {
     <>
       <button
         onClick={() =>
-          setTasks([
-            { id: Date.now(), title: 'Task ' + Date.now() },
-            ...tasks,
-          ])
+          setTasks([{ id: Date.now(), title: "Task " + Date.now() }, ...tasks])
         }
         className="btn btn-primary my-3"
       >
@@ -31,6 +28,7 @@ const TaskList = () => {
             <button
               className="btn btn-outline-danger"
               onClick={() =>
+                // Creates new array only containing tasks where the condition was true
                 setTasks(tasks.filter((t) => t.id !== task.id))
               }
             >
